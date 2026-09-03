@@ -1,0 +1,27 @@
+# === SROS2 keystore（含 CA/節點私鑰，絕不可提交）===
+# 可用 hardening/setup_sros2.sh 重新產生
+hardening/keystore/
+
+# === pi session 紀錄 ===
+*.html
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# === 測試執行產生的時間戳報告（保留 phaseN 手寫報告）===
+results/baseline_*.md
+results/hardened_*.md
+results/*_test_*.md
+
+# === 容器/暫存 ===
+*.log
+*.pcap
+*.tmp
+
+# === OS ===
+.DS_Store
+Thumbs.db

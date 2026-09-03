@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Fast-DDS profile：以 unicast initial peers 取代 multicast 探索。
+  原因：Docker bridge 網路上 multicast 探索不穩，容器間發現不到彼此。
+  這裡列出實驗室三個容器的固定 IP（見 docker-compose.yml networks.lab.ipam）。
+  透過環境變數 FASTRTPS_DEFAULT_PROFILES_FILE 指向本檔。
+-->
+<dds xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+  <profiles>
+    <participant profile_name="unicast_lab" is_default_profile="true">
+      <rtps>
+        <builtin>
+          <metatrafficUnicastLocatorList>
+            <locator>
+              <udpv4/>
+            </locator>
+          </metatrafficUnicastLocatorList>
+          <initialPeersList>
+            <locator><udpv4><address>172.30.0.10</address></udpv4></locator>
+            <locator><udpv4><address>172.30.0.11</address></udpv4></locator>
+            <locator><udpv4><address>172.30.0.12</address></udpv4></locator>
+          </initialPeersList>
+        </builtin>
+      </rtps>
+    </participant>
+  </profiles>
+</dds>

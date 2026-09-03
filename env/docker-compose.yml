@@ -1,0 +1,62 @@
+# ROS2 Jazzy 安全測試 - 隔離環境
+# 網路 internal: true => 容器間互通，但無對外路由（無法連外網）。
+# 固定 IP + Fast-DDS unicast peers（見 fastdds_peers.xml），
+# 因為 Docker bridge 上 multicast 探索不穩。
+x-common-env: &common-env
+  ROS_DOMAIN_ID: "42"
+  ROS_AUTOMATIC_DISCOVERY_RANGE: "SUBNET"
+  FASTRTPS_DEFAULT_PROFILES_FILE: "/work/env/fastdds_peers.xml"
+
+services:
+  victim:
+    build: .
+    image: ros2-sectest:jazzy
+    container_name: sectest-victim
+    hostname: victim
+    networks:
+      lab:
+        ipv4_address: 172.30.0.10
+    environment: *common-env
+    volumes:
+      - ../:/work
+    cap_add: [NET_RAW, NET_ADMIN]
+    stdin_open: true
+    tty: true
+
+  attacker:
+    image: ros2-sectest:jazzy
+    container_name: sectest-attacker
+    hostname: attacker
+    depends_on: [victim]
+    networks:
+      lab:
+        ipv4_address: 172.30.0.11
+    environment: *common-env
+    volumes:
+      - ../:/work
+    cap_add: [NET_RAW, NET_ADMIN]
+    stdin_open: true
+    tty: true
+
+  monitor:
+    image: ros2-sectest:jazzy
+    container_name: sectest-monitor
+    hostname: monitor
+    depends_on: [victim]
+    networks:
+      lab:
+        ipv4_address: 172.30.0.12
+    environment: *common-env
+    volumes:
+      - ../:/work
+    cap_add: [NET_RAW, NET_ADMIN]
+    stdin_open: true
+    tty: true
+
+networks:
+  lab:
+    driver: bridge
+    internal: true   # 關鍵：隔離，無對外路由
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24

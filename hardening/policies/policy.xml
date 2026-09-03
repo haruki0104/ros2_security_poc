@@ -1,0 +1,44 @@
+<policy version="0.2.0">
+  <enclaves>
+    <enclave path="/">
+      <profiles>
+        <profile node="victim_param_service" ns="/">
+          <services reply="ALLOW">
+            <service>set_safety_mode</service>
+            <service>~/describe_parameters</service>
+            <service>~/get_parameter_types</service>
+            <service>~/get_parameters</service>
+            <service>~/get_type_description</service>
+            <service>~/list_parameters</service>
+            <service>~/set_parameters</service>
+            <service>~/set_parameters_atomically</service>
+          </services>
+          <topics publish="ALLOW">
+            <topic>parameter_events</topic>
+            <topic>rosout</topic>
+          </topics>
+        </profile>
+        <profile node="victim_talker_listener" ns="/">
+          <services reply="ALLOW">
+            <service>~/describe_parameters</service>
+            <service>~/get_parameter_types</service>
+            <service>~/get_parameters</service>
+            <service>~/get_type_description</service>
+            <service>~/list_parameters</service>
+            <service>~/set_parameters</service>
+            <service>~/set_parameters_atomically</service>
+          </services>
+          <topics subscribe="ALLOW">
+            <topic>cmd_vel</topic>
+          </topics>
+          <topics publish="ALLOW">
+            <topic>cmd_vel</topic>
+            <topic>parameter_events</topic>
+            <topic>rosout</topic>
+            <topic>sensor_data</topic>
+          </topics>
+        </profile>
+      </profiles>
+    </enclave>
+  </enclaves>
+</policy>
