@@ -8,10 +8,12 @@
 
 ```bash
 # 一鍵完整流程（部署 → 基準攻擊 → 加固 → 加固後攻擊 → 驗證）
-bash scripts/run_all.sh
+make all          # 等同 bash scripts/run_all.sh
+
+make help         # 列出所有便捷指令
 ```
 
-分步執行與各腳本說明見 [`scripts/README.md`](scripts/README.md)。
+分步執行與各腳本說明見 [`scripts/README.md`](scripts/README.md)；貢獻流程見 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
 
 ## 目錄結構
 
