@@ -45,13 +45,13 @@ echo "$ACCESS_RESULT"
 # 3. 偵測端（選配）
 if [[ "${1:-}" == "--detect" ]]; then
     echo ""
-    echo "--- [3] 偵測端執行 ---"
+    echo "--- [選配] 偵測端執行 ---"
     docker exec sectest-victim bash -lc 'python3 /work/monitor/detect_anomaly.py 10 172.30.0.10,172.30.0.12,172.30.0.1' || true
 fi
 
 # 4. 防火牆狀態
 echo ""
-echo "--- [4] 防火牆狀態 ---"
+echo "--- [3] 防火牆狀態 ---"
 docker exec sectest-victim bash -lc 'bash /work/hardening/firewall.sh status 2>/dev/null || echo "防火牆未啟用"'
 
 echo ""
